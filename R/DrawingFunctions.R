@@ -90,7 +90,7 @@ draw_matrix_heatmap <- function(fullMatrix,
 
     h <- Heatmap(fullMatrix,
         name = "Value",
-        col = colorRamp2(ranges, viridis(3)),
+        col = colorRamp2(ranges, c("#F5F5F5", "#1F45FC", "#151B54")),
         bottom_annotation = ha,
         heatmap_legend_param = list(legend_direction = "horizontal",
                                     title_position = "leftcenter"),
