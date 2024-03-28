@@ -30,67 +30,67 @@ plot_region(
 )
 }
 \arguments{
-\item{queryFiles}{a named vector of sample file names. The file should be in 
+\item{queryFiles}{a named vector of sample file names. The file should be in
 .bam, .bed, .wig or .bw format, mixture of formats is allowed}
 
-\item{centerFiles}{a named vector of reference file names or genomic features 
-in  c("utr3", "utr5", "cds", "intron", "exon", "transcript", "gene"). The 
+\item{centerFiles}{a named vector of reference file names or genomic features
+in  c("utr3", "utr5", "cds", "intron", "exon", "transcript", "gene"). The
 file should be in .bed format only}
 
-\item{txdb}{a TxDb object defined in the GenomicFeatures package. Default 
+\item{txdb}{a TxDb object defined in the GenomicFeatures package. Default
 NULL, needed only when genomic features are used as centerFiles.}
 
-\item{regionName}{a string specifying the name of the center region in the 
+\item{regionName}{a string specifying the name of the center region in the
 plots}
 
-\item{inputFiles}{a named vector of input sample file names. The file should 
+\item{inputFiles}{a named vector of input sample file names. The file should
 be in .bam, .bed, .wig or .bw format, mixture of formats is allowed}
 
 \item{nbins}{an integer defines the total number of bins}
 
 \item{importParams}{a list of parameters for \code{handle_input}}
 
-\item{verbose}{logical, indicating whether to output additional information 
+\item{verbose}{logical, indicating whether to output additional information
 (data used for plotting or statistical test results)}
 
-\item{scale}{logical, indicating whether the score matrix should be scaled to 
+\item{scale}{logical, indicating whether the score matrix should be scaled to
 the range 0:1, so that samples with different baseline can be compared}
 
-\item{heatmap}{logical, indicating whether a heatmap of the score matrix 
+\item{heatmap}{logical, indicating whether a heatmap of the score matrix
 should be generated}
 
-\item{fiveP}{an integer, indicating extension out or inside of the 5' 
+\item{fiveP}{an integer, indicating extension out or inside of the 5'
 boundary of gene by negative or positive number}
 
-\item{threeP}{an integer, indicating extension out or inside of the 5' 
+\item{threeP}{an integer, indicating extension out or inside of the 5'
 boundary of gene by positive or negative number}
 
-\item{smooth}{logical, indicating whether the line should smoothed with a 
+\item{smooth}{logical, indicating whether the line should smoothed with a
 spline smoothing algorithm}
 
-\item{stranded}{logical, indicating whether the strand of the feature should 
+\item{stranded}{logical, indicating whether the strand of the feature should
 be considered}
 
-\item{transform}{a string in c("log", "log2", "log10"), default = NA 
+\item{transform}{a string in c("log", "log2", "log10"), default = NA
 indicating no transformation of data matrix}
 
-\item{outPrefix}{a string specifying output file prefix for plots 
+\item{outPrefix}{a string specifying output file prefix for plots
 (outPrefix.pdf)}
 
-\item{rmOutlier}{a numeric value serving as a multiplier of the MAD in Hampel 
-filter for outliers identification, 0 indicating not removing outliers. For 
+\item{rmOutlier}{a numeric value serving as a multiplier of the MAD in Hampel
+filter for outliers identification, 0 indicating not removing outliers. For
 Gaussian distribution, use 3, adjust based on data distribution}
 
-\item{heatRange}{a numeric vector with three elements, defining custom range for 
-color ramp, default=NULL, i.e. the range is defined automatically based on 
+\item{heatRange}{a numeric vector with three elements, defining custom range for
+color ramp, default=NULL, i.e. the range is defined automatically based on
 the c(minimun, median, maximum) of a data matrix}
 
 \item{Ylab}{a string for y-axis label}
 
-\item{statsMethod}{a string in c("wilcox.test", "t.test"), for pair-wise 
+\item{statsMethod}{a string in c("wilcox.test", "t.test"), for pair-wise
 group comparisons}
 
-\item{hw}{a vector of two elements specifying the height and width of the 
+\item{hw}{a vector of two elements specifying the height and width of the
 output figures}
 
 \item{nc}{integer, number of cores for parallel processing}
@@ -99,13 +99,13 @@ output figures}
 a dataframe containing the data used for plotting
 }
 \description{
-Plot reads or peak Coverage/base/gene of samples given in the 
-query files inside regions defined in the centerFiles. The upstream and 
-downstream flanking windows can be given separately. If Input files are 
+Plot reads or peak Coverage/base/gene of samples given in the
+query files inside regions defined in the centerFiles. The upstream and
+downstream flanking windows can be given separately. If Input files are
 provided, ratio over Input is computed and displayed as well.
 }
 \examples{
-centerfiles <- system.file("extdata", "test_chip_peak_chr19.narrowPeak", 
+centerfiles <- system.file("extdata", "test_chip_peak_chr19.narrowPeak",
 package = "GenomicPlot")
 names(centerfiles) <- c("NarrowPeak")
 queryfiles <- c(

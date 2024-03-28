@@ -21,14 +21,14 @@ draw_quantile_plot(
 
 \item{Ylab}{a string for y-axis label}
 
-\item{fc}{a string denoting column name for sub-grouping based on an 
+\item{fc}{a string denoting column name for sub-grouping based on an
 additional factor}
 }
 \value{
 a ggplot object
 }
 \description{
-Plot quantiles as y-axis, and values as x-axis. Same as 
+Plot quantiles as y-axis, and values as x-axis. Same as
 `geom_ecdf`, but allows sub-grouping by a second factor.
 }
 \note{

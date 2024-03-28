@@ -9,7 +9,7 @@ draw_region_name(featureNames, scaled_bins, xmax)
 \arguments{
 \item{featureNames}{a string vector giving names of sub-regions}
 
-\item{scaled_bins}{a vector of integers denoting the lengths of each 
+\item{scaled_bins}{a vector of integers denoting the lengths of each
 sub-region}
 
 \item{xmax}{an integer denoting the right most boundary}

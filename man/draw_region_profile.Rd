@@ -23,12 +23,12 @@ draw_region_profile(
 
 \item{cn}{column name in plot_df for query samples grouping}
 
-\item{sn}{column name in plot_df for subject name to be shown in the plot 
+\item{sn}{column name in plot_df for subject name to be shown in the plot
 title}
 
 \item{Ylab}{a string for Y-axis label}
 
-\item{vx}{a vector on integers denoting the x coordinates of start of each 
+\item{vx}{a vector on integers denoting the x coordinates of start of each
 sub-region}
 }
 \value{
