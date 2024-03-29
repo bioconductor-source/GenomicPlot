@@ -9,9 +9,9 @@ overlap_triple(atriple, overlap_fun, title = NULL)
 \arguments{
 \item{atriple}{a list of three vectors}
 
-\item{overlap_fun}{the name of the function that defines overlap, depending 
-on the type of object in the vectors. For GRanges, use 
-\code{\link{filter_by_overlaps_stranded}} or 
+\item{overlap_fun}{the name of the function that defines overlap, depending
+on the type of object in the vectors. For GRanges, use
+\code{\link{filter_by_overlaps_stranded}} or
 \code{\link{filter_by_nonoverlaps_stranded}}, for gene names, use intersect.}
 
 \item{title}{main title of the figure}
@@ -20,9 +20,9 @@ on the type of object in the vectors. For GRanges, use
 a VennDiagram object
 }
 \description{
-This is a helper function for Venn diagram plot. A Venn diagram 
-is plotted as output. For GRanges, as A overlap B may not be the same as B 
-overlap A, the order of GRanges in a list matters, certain order may produce 
+This is a helper function for Venn diagram plot. A Venn diagram
+is plotted as output. For GRanges, as A overlap B may not be the same as B
+overlap A, the order of GRanges in a list matters, certain order may produce
 an error.
 }
 \examples{

@@ -9,7 +9,7 @@ draw_region_landmark(featureNames, vx, xmax)
 \arguments{
 \item{featureNames}{a string vector giving names of sub-regions}
 
-\item{vx}{a vector on integers denoting the x coordinates of start of each 
+\item{vx}{a vector on integers denoting the x coordinates of start of each
 sub-region}
 
 \item{xmax}{an integer denoting the left most boundary}
@@ -18,7 +18,7 @@ sub-region}
 a ggplot object
 }
 \description{
-Plot a gene centered polygon for demarcating gene and its 
+Plot a gene centered polygon for demarcating gene and its
 upstream and downstream regions
 }
 \note{

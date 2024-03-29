@@ -2,6 +2,7 @@
 % Please edit documentation in R/GenomicPlot.R
 \docType{package}
 \name{GenomicPlot}
+\alias{GenomicPlot-package}
 \alias{GenomicPlot}
 \title{GenomicPlot-package}
 \description{
@@ -45,6 +46,14 @@ Main functions are as follows:
      plotted along with the profile plots in \code{\link{plot_region}},
      \code{\link{plot_locus}} and \code{\link{plot_locus_with_random}}.
 }
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/shuye2009/GenomicPlot}
+  \item Report bugs at \url{https://github.com/shuye2009/GenomicPlot/issues}
+}
+
 }
 \author{
 Shuye Pu

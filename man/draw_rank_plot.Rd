@@ -19,8 +19,8 @@ draw_rank_plot(stat_df, xc = "Feature", yc = "Intensity", Ylab = yc)
 a ggplot object
 }
 \description{
-Plot cumulative sum over rank as line plot, both cumulative sum 
-and rank are scaled between 0 and 1. This is the same as the fingerprint plot 
+Plot cumulative sum over rank as line plot, both cumulative sum
+and rank are scaled between 0 and 1. This is the same as the fingerprint plot
 of the deepTools.
 }
 \examples{

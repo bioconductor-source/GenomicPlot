@@ -19,7 +19,7 @@ draw_stacked_profile(
 )
 }
 \arguments{
-\item{plot_df}{a dataframe with column names c(xc, yc, cn, "Interval", 
+\item{plot_df}{a dataframe with column names c(xc, yc, cn, "Interval",
 "lower", "upper")}
 
 \item{xc}{a string denoting column name for values on x-axis}
@@ -28,11 +28,11 @@ draw_stacked_profile(
 
 \item{cn}{a string denoting column name for grouping}
 
-\item{ext}{a vector of 4 integers denoting upstream and downstream extension 
-around start and end, the range of extensions must be within the range of 
+\item{ext}{a vector of 4 integers denoting upstream and downstream extension
+around start and end, the range of extensions must be within the range of
 `xc` of the `plot_df`}
 
-\item{hl}{a vector of 4 integers defining upstream and downstream boundaries 
+\item{hl}{a vector of 4 integers defining upstream and downstream boundaries
 of the rectangle for start and end}
 
 \item{atitle}{a string for the title of the plot}
@@ -41,21 +41,21 @@ of the rectangle for start and end}
 
 \item{Ylab}{a string for y-axis label}
 
-\item{shade}{logical, indicating whether to place a shaded rectangle around 
+\item{shade}{logical, indicating whether to place a shaded rectangle around
 the point of interest}
 
-\item{stack}{logical, indicating whether to plot the number of valid 
+\item{stack}{logical, indicating whether to plot the number of valid
 (non-zero) data points in each bin}
 }
 \value{
 a ggplot object
 }
 \description{
-Plot lines with standard error as the error band, also plots 
+Plot lines with standard error as the error band, also plots
 number of regions having non-zero signals
 }
 \note{
-used by \code{\link{plot_start_end}}, 
+used by \code{\link{plot_start_end}},
  \code{\link{plot_start_end_with_random}}
 }
 \examples{
@@ -84,9 +84,9 @@ end_df <- data.frame(Intensity, se, Position, Query, Reference) \%>\%
     mutate(Group = paste(Query, Reference, sep = ":")) \%>\%
     mutate(Location = rep("End", 400)) \%>\%
     mutate(Interval = sample.int(2000, 400))
-    
+
 df <- rbind(start_df, center_df, end_df)
-p <- draw_stacked_profile(df, cn = "Group", shade = TRUE, 
+p <- draw_stacked_profile(df, cn = "Group", shade = TRUE,
     ext = c(-50, 50, -50, 50),
     hl = c(-20, 20, -25, 25), insert = 100)
 p

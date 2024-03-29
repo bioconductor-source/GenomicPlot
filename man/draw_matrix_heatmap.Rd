@@ -21,14 +21,14 @@ draw_matrix_heatmap(
 
 \item{labels_col}{a named vector for column annotation}
 
-\item{levels_col}{factor levels for names of labels_col, specifying the 
+\item{levels_col}{factor levels for names of labels_col, specifying the
 order of labels_col}
 
-\item{ranking}{method for ranking the rows of the input matrix, options are 
+\item{ranking}{method for ranking the rows of the input matrix, options are
 c("Sum", "Max", "Hierarchical", "None")}
 
-\item{ranges}{a numeric vector with three elements, defining custom range for 
-color ramp, default=NULL, i.e. the range is defined automatically based on 
+\item{ranges}{a numeric vector with three elements, defining custom range for
+color ramp, default=NULL, i.e. the range is defined automatically based on
 the c(minimun, median, maximum) of fullMatrix}
 
 \item{verbose}{logical, whether to output the input matrix for inspection}

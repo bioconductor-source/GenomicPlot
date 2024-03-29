@@ -23,20 +23,20 @@ draw_locus_profile(
 
 \item{yc}{a string denoting column name for numeric data to be plotted}
 
-\item{cn}{a string denoting column name for sample grouping, like 'Query' or 
+\item{cn}{a string denoting column name for sample grouping, like 'Query' or
 'Reference'}
 
-\item{sn}{a string denoting column name for the subject of sample grouping, 
+\item{sn}{a string denoting column name for the subject of sample grouping,
 if 'cn' is 'Query', then 'sn' will be 'Reference'}
 
 \item{Xlab}{a string for x-axis label}
 
 \item{Ylab}{a string for y-axis label}
 
-\item{shade}{logical indicating whether to place a shaded rectangle 
+\item{shade}{logical indicating whether to place a shaded rectangle
 around the loci bounded by hl}
 
-\item{hl}{a vector of two integers defining upstream and downstream 
+\item{hl}{a vector of two integers defining upstream and downstream
 boundaries of the rectangle}
 }
 \value{
