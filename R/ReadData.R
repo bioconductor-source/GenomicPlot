@@ -187,11 +187,15 @@ handle_input <- function(inputFiles,
     }
 
     bed_suffix <- paste(
-        paste0("\\.", c("bed", "BED", "Bed", "narrowPeak", "broadPeak"), "$"),
+        c(paste0("\\.", c("bed", "BED", "Bed", "narrowPeak", "broadPeak"), "$"),
+          paste0("\\.", c("bed", "BED", "Bed", "narrowPeak", "broadPeak"), "\\.gz$")),
         collapse = "|")
     bedGraph_suffix <- paste(
-        paste0("\\.", c("bedGraph", "bedgraph", "BedGraph", "BEDGRAPH", "bg",
-                        "BG"), "$"), collapse = "|")
+        c(paste0("\\.", c("bedGraph", "bedgraph", "BedGraph", "BEDGRAPH", "bg",
+                          "BG"), "$"),
+          paste0("\\.", c("bedGraph", "bedgraph", "BedGraph", "BEDGRAPH", "bg",
+                          "BG"), "\\.gz$")),
+        collapse = "|")
     bigwig_suffix <- paste(
         paste0("\\.", c("bw", "bigwig", "Bigwig", "bigWig", "BigWig", "BIGWIG",
                         "BW"), "$"), collapse = "|")

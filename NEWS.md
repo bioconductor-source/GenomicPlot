@@ -1,4 +1,7 @@
-# CHANGES IN VERSION 1.0.5
+# CHANGES IN VERSION 1.0.7
+   - enable handling of .gz files for bed and bedGraph
+   
+# CHANGES IN VERSION 1.0.6
    - Added a function to handle bedGraph format files as input data
    
 # CHANGES IN VERSION 1.0.5
