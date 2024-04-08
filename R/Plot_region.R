@@ -394,7 +394,8 @@ plot_region <- function(queryFiles,
 
             mplot_df[[paste(queryLabel, centerLabel, sep = ":")]] <- plot_df
 
-            regionMatrix <- featureMatrix[, collabel_list[[regionName]]]
+            regionMatrix <- featureMatrix[, collabel_list[[regionName]], drop = FALSE]
+
             processed_region_matrix[[queryLabel]][[centerLabel]] <- regionMatrix
 
             Intensity <- as.numeric(rowMeans(regionMatrix))

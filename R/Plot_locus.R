@@ -342,7 +342,7 @@ plot_locus <- function(queryFiles,
                 xmin <- which(colLabel == hl[1])
                 xmax <- which(colLabel == hl[2])
                 if (length(xmax) == 0) xmax <- length(colLabel)
-                submatrix <- (fullMatrix[, xmin:xmax])
+                submatrix <- fullMatrix[, xmin:xmax, drop = FALSE]
                 submatrix[is.na(submatrix)] <- 0
                 Intensity <- as.numeric(rowMeans(submatrix))
 
@@ -603,7 +603,7 @@ plot_locus <- function(queryFiles,
                     xmin <- which(colLabel == hl[1])
                     xmax <- which(colLabel == hl[2])
                     if (length(xmax) == 0) xmax <- length(colLabel)
-                    submatrix <- (fullMatrix[, xmin:xmax])
+                    submatrix <- fullMatrix[, xmin:xmax, drop = FALSE]
                     submatrix[is.na(submatrix)] <- 0
                     Intensity <- as.numeric(rowMeans(submatrix))
 
