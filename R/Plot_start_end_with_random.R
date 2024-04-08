@@ -325,7 +325,11 @@ plot_start_end_with_random <- function(queryFiles,
             fullMatrix <- scoreMatrix_list[[queryLabel]][[locus]]
 
             colm <- apply(fullMatrix, 2, mean)
-            colsd <- apply(fullMatrix, 2, sd)
+            if(nrow(fullMatrix) == 1){
+                colsd <- rep(0, ncol(fullMatrix))
+            }else{
+                colsd <- apply(fullMatrix, 2, sd)
+            }
             colse <- colsd / sqrt(nrow(fullMatrix))
             collabel <- seq(start, (end - binSize), binSize)
             querybed <- as.factor(rep(queryLabel, ncol(fullMatrix)))
@@ -352,7 +356,11 @@ plot_start_end_with_random <- function(queryFiles,
                 rfullMatrix <- scoreMatrix_list_random[[queryLabel]][[locus]]
 
                 rcolm <- apply(rfullMatrix, 2, mean)
-                rcolsd <- apply(rfullMatrix, 2, sd)
+                if(nrow(rfullMatrix) == 1){
+                    rcolsd <- rep(0, ncol(rfullMatrix))
+                }else{
+                    rcolsd <- apply(rfullMatrix, 2, sd)
+                }
                 rcolse <- rcolsd / sqrt(nrow(rfullMatrix))
                 rcollabel <- seq(start, (end - binSize), binSize)
                 rquerybed <- as.factor(rep(paste0(queryLabel, ":Random"),
@@ -473,7 +481,11 @@ plot_start_end_with_random <- function(queryFiles,
                 fullMatrix <- ratioMatrix_list[[ratiolabel]][[locus]]
 
                 colm <- apply(fullMatrix, 2, mean)
-                colsd <- apply(fullMatrix, 2, sd)
+                if(nrow(fullMatrix) == 1){
+                    colsd <- rep(0, ncol(fullMatrix))
+                }else{
+                    colsd <- apply(fullMatrix, 2, sd)
+                }
                 colse <- colsd / sqrt(nrow(fullMatrix))
                 collabel <- seq(start, (end - binSize), binSize)
                 ratiobed <- as.factor(rep(ratiolabel, ncol(fullMatrix)))
@@ -502,7 +514,11 @@ plot_start_end_with_random <- function(queryFiles,
                     rfullMatrix <- rmlr[[ratiolabel]][[locus]]
 
                     rcolm <- apply(rfullMatrix, 2, mean)
-                    rcolsd <- apply(rfullMatrix, 2, sd)
+                    if(nrow(rfullMatrix) == 1){
+                        rcolsd <- rep(0, ncol(rfullMatrix))
+                    }else{
+                        rcolsd <- apply(rfullMatrix, 2, sd)
+                    }
                     rcolse <- rcolsd / sqrt(nrow(rfullMatrix))
                     rcollabel <- seq(start, (end - binSize), binSize)
                     rratiobed <- as.factor(rep(paste0(ratiolabel, ":Random"),

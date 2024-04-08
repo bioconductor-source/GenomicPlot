@@ -282,7 +282,11 @@ plot_start_end <- function(queryFiles,
                 fullMatrix <- scoreMatrix_list[[queryLabel]][[locus]]
 
                 colm <- apply(fullMatrix, 2, mean)
-                colsd <- apply(fullMatrix, 2, sd)
+                if(nrow(fullMatrix) == 1){
+                    colsd <- rep(0, ncol(fullMatrix))
+                }else{
+                    colsd <- apply(fullMatrix, 2, sd)
+                }
                 colse <- colsd / sqrt(nrow(fullMatrix))
                 collabel <- seq(start, (end - binSize), binSize)
                 querybed <- as.factor(rep(queryLabel, ncol(fullMatrix)))
@@ -394,7 +398,11 @@ plot_start_end <- function(queryFiles,
                     fullMatrix <- ratioMatrix_list[[ratiolabel]][[locus]]
 
                     colm <- apply(fullMatrix, 2, mean)
-                    colsd <- apply(fullMatrix, 2, sd)
+                    if(nrow(fullMatrix) == 1){
+                        colsd <- rep(0, ncol(fullMatrix))
+                    }else{
+                        colsd <- apply(fullMatrix, 2, sd)
+                    }
                     colse <- colsd / sqrt(nrow(fullMatrix))
                     collabel <- seq(start, (end - binSize), binSize)
                     ratiobed <- as.factor(rep(ratiolabel, ncol(fullMatrix)))

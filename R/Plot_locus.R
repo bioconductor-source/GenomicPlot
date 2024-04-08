@@ -304,7 +304,11 @@ plot_locus <- function(queryFiles,
             fullMatrix <- scoreMatrix_list[[queryLabel]][[centerLabel]]
 
             colm <- apply(fullMatrix, 2, mean)
-            colsd <- apply(fullMatrix, 2, sd)
+            if(nrow(fullMatrix) == 1){
+                colsd <- rep(0, ncol(fullMatrix))
+            }else{
+                colsd <- apply(fullMatrix, 2, sd)
+            }
             colse <- colsd / sqrt(apply(fullMatrix, 2, length))
             collabel <- colLabel
             querybed <- as.factor(rep(queryLabel, length(colm)))
@@ -560,7 +564,11 @@ plot_locus <- function(queryFiles,
                 fullMatrix <- ratioMatrix_list[[ratiolabel]][[centerLabel]]
 
                 colm <- apply(fullMatrix, 2, mean)
-                colsd <- apply(fullMatrix, 2, sd)
+                if(nrow(fullMatrix) == 1){
+                    colsd <- rep(0, ncol(fullMatrix))
+                }else{
+                    colsd <- apply(fullMatrix, 2, sd)
+                }
                 colse <- colsd / sqrt(apply(fullMatrix, 2, length))
                 collabel <- colLabel
                 querybed <- as.factor(rep(ratiolabel, length(colm)))

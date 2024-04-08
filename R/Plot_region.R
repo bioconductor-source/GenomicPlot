@@ -347,7 +347,11 @@ plot_region <- function(queryFiles,
                 processed_matrix[[queryLabel]][[centerLabel]] <- featureMatrix
 
                 colm <- apply(featureMatrix, 2, mean)
-                colsd <- apply(featureMatrix, 2, sd)
+                if(nrow(featureMatrix) == 1){
+                    colsd <- rep(0, ncol(featureMatrix))
+                }else{
+                    colsd <- apply(featureMatrix, 2, sd)
+                }
                 colse <- colsd / sqrt(nrow(featureMatrix))
                 querybed <- rep(queryLabel, ncol(featureMatrix))
                 centerbed <- rep(centerLabel, ncol(featureMatrix))
@@ -554,7 +558,11 @@ plot_region <- function(queryFiles,
                 featureMatrix <- ratioMatrix_list[[ratiolabel]][[centerLabel]]
 
                 colm <- apply(featureMatrix, 2, mean)
-                colsd <- apply(featureMatrix, 2, sd)
+                if(nrow(featureMatrix) == 1){
+                    colsd <- rep(0, ncol(featureMatrix))
+                }else{
+                    colsd <- apply(featureMatrix, 2, sd)
+                }
                 colse <- colsd / sqrt(nrow(featureMatrix))
                 ratiobed <- rep(ratiolabel, ncol(featureMatrix))
                 centerbed <- rep(centerLabel, ncol(featureMatrix))

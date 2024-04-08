@@ -367,7 +367,11 @@ plot_locus_with_random <- function(queryFiles,
                 for (alabel in c(centerLabel, "Random")) {
                     fullMatrix <- fullMatrix_list[[alabel]]
                     colm <- apply(fullMatrix, 2, mean)
-                    colsd <- apply(fullMatrix, 2, sd)
+                    if(nrow(fullMatrix) == 1){
+                        colsd <- rep(0, ncol(fullMatrix))
+                    }else{
+                        colsd <- apply(fullMatrix, 2, sd)
+                    }
                     colse <- colsd / sqrt(apply(fullMatrix, 2, length))
                     collabel <- colLabel
                     querybed <- as.factor(rep(queryLabel, length(colm)))
@@ -505,7 +509,11 @@ plot_locus_with_random <- function(queryFiles,
                         fullMatrix <- fullMatrix_list[[alabel]]
 
                         colm <- apply(fullMatrix, 2, mean)
-                        colsd <- apply(fullMatrix, 2, sd)
+                        if(nrow(fullMatrix) == 1){
+                            colsd <- rep(0, ncol(fullMatrix))
+                        }else{
+                            colsd <- apply(fullMatrix, 2, sd)
+                        }
                         colse <- colsd / sqrt(apply(fullMatrix, 2, length))
                         collabel <- colLabel
                         querybed <- as.factor(rep(queryLabel, length(colm)))
