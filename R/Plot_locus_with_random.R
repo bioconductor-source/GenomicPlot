@@ -216,7 +216,7 @@ plot_locus_with_random <- function(queryFiles,
     smlr <- list() # scoreMatrix_list_random
 
     bedparam <- importParams
-    bedparam$CLIP_reads <- FALSE
+    bedparam$offset <- 0
     bedparam$fix_width <- 0
     bedparam$useScore <- FALSE
     bedparam$outRle <- FALSE

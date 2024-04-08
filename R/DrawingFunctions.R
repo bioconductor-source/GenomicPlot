@@ -48,7 +48,7 @@ draw_matrix_heatmap <- function(fullMatrix,
     }
     colnames(fullMatrix) <- labels_col
 
-    showRN <- ifelse(nrow(fullMatrix) < 100, TRUE, FALSE) # show row name?
+    showRN <- ifelse(nrow(fullMatrix) <= 30, TRUE, FALSE) # show row name?
 
     fullMatrix <- rank_rows(fullMatrix, ranking)
 

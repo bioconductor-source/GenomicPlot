@@ -1,5 +1,9 @@
+# CHANGES IN VERSION 1.0.8
+   - Allow visualization and analysis to be limited to specific chromosomes
+   - Show heatmap row names only when the number of rows <= 30
+   
 # CHANGES IN VERSION 1.0.7
-   - enable handling of .gz files for bed and bedGraph
+   - Enable handling of .gz files for bed and bedGraph
    
 # CHANGES IN VERSION 1.0.6
    - Added a function to handle bedGraph format files as input data

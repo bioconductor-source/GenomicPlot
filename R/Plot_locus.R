@@ -1,82 +1,82 @@
 #' @title Plot signal around custom genomic loci
-#' @description  Plot reads or peak Coverage/base/gene of samples given in the 
+#' @description  Plot reads or peak Coverage/base/gene of samples given in the
 #' query files around reference locus (start, end or center of a genomic region)
-#' defined in the centerFiles. The upstream and downstream windows flanking loci 
-#' can be given separately, a smaller window can be defined to allow statistical 
-#' comparisons between samples for the same reference, or between references for 
-#' a given sample. If Input files are provided, ratio over Input is computed and 
+#' defined in the centerFiles. The upstream and downstream windows flanking loci
+#' can be given separately, a smaller window can be defined to allow statistical
+#' comparisons between samples for the same reference, or between references for
+#' a given sample. If Input files are provided, ratio over Input is computed and
 #' displayed as well.
 #'
-#' @param queryFiles a vector of sample file names. The file should be in .bam, 
+#' @param queryFiles a vector of sample file names. The file should be in .bam,
 #'  .bed, .wig or .bw format, mixture of formats is allowed
-#' @param centerFiles a named vector of reference file names or genomic features 
-#'  in  c("utr3", "utr5", "cds", "intron", "exon", "transcript", "gene"). The 
+#' @param centerFiles a named vector of reference file names or genomic features
+#'  in  c("utr3", "utr5", "cds", "intron", "exon", "transcript", "gene"). The
 #'  file should be in .bed format only
-#' @param txdb a TxDb object defined in the GenomicFeatures package. Default 
+#' @param txdb a TxDb object defined in the GenomicFeatures package. Default
 #'  NULL, needed only when genomic features are used as centerFiles.
-#' @param inputFiles a vector of input sample file names. The file should be in 
+#' @param inputFiles a vector of input sample file names. The file should be in
 #'  .bam, .bed, .wig or .bw format, mixture of formats is allowed
 #' @param importParams a list of parameters for \code{\link{handle_input}}
-#' @param ext a vector of two integers defining upstream and downstream 
+#' @param ext a vector of two integers defining upstream and downstream
 #'  boundaries of the plot window, flanking the reference locus
-#' @param hl a vector of two integers defining upstream and downstream 
+#' @param hl a vector of two integers defining upstream and downstream
 #'  boundaries of the highlight window, flanking the reference locus
-#' @param stranded logical, indicating whether the strand of the feature should 
+#' @param stranded logical, indicating whether the strand of the feature should
 #'  be considered
-#' @param scale logical, indicating whether the score matrix should be scaled to 
+#' @param scale logical, indicating whether the score matrix should be scaled to
 #'  the range 0:1, so that samples with different baseline can be compared
-#' @param smooth logical, indicating whether the line should smoothed with a 
+#' @param smooth logical, indicating whether the line should smoothed with a
 #'  spline smoothing algorithm
-#' @param heatmap logical, indicating whether a heatmap of the score matrix 
+#' @param heatmap logical, indicating whether a heatmap of the score matrix
 #'  should be generated
-#' @param heatRange a numeric vector with three elements, defining custom range for 
-#'  color ramp, default=NULL, i.e. the range is defined automatically based on 
+#' @param heatRange a numeric vector with three elements, defining custom range for
+#'  color ramp, default=NULL, i.e. the range is defined automatically based on
 #'  the c(minimun, median, maximum) of a data matrix
-#' @param rmOutlier a numeric value serving as a multiplier of the MAD in 
-#'  Hampel filter for outliers identification, 0 indicating not removing 
-#'  outliers. For Gaussian distribution, use 3, adjust based on data 
+#' @param rmOutlier a numeric value serving as a multiplier of the MAD in
+#'  Hampel filter for outliers identification, 0 indicating not removing
+#'  outliers. For Gaussian distribution, use 3, adjust based on data
 #'  distribution.
-#' @param outPrefix a string specifying output file prefix for plots 
+#' @param outPrefix a string specifying output file prefix for plots
 #'  (outPrefix.pdf)
 #' @param refPoint a string in c("start", "center", "end")
 #' @param Xlab a string denotes the label on x-axis
 #' @param Ylab a string for y-axis label
-#' @param shade logical indicating whether to place a shaded rectangle around 
+#' @param shade logical indicating whether to place a shaded rectangle around
 #'  the point of interest
 #' @param binSize an integer defines bin size for intensity calculation
-#' @param transform a string in c("log", "log2", "log10"), default = NA 
+#' @param transform a string in c("log", "log2", "log10"), default = NA
 #'  indicating no transformation of data matrix
-#' @param statsMethod a string in c("wilcox.test", "t.test"), for pair-wise 
+#' @param statsMethod a string in c("wilcox.test", "t.test"), for pair-wise
 #'  group comparisons
-#' @param verbose logical, indicating whether to output additional information 
+#' @param verbose logical, indicating whether to output additional information
 #'  (data used for plotting or statistical test results)
-#' @param hw a vector of two elements specifying the height and width of the 
+#' @param hw a vector of two elements specifying the height and width of the
 #'  output figures
 #' @param nc integer, number of cores for parallel processing
 #'
-#' @return a list of two dataframes containing the data used for plotting and 
+#' @return a list of two dataframes containing the data used for plotting and
 #'  for statistical testing
 #' @author Shuye Pu
-#' 
+#'
 #' @examples
 #' centerfiles <- c(
 #' system.file("extdata", "test_clip_peak_chr19.bed", package = "GenomicPlot"),
 #' system.file("extdata", "test_chip_peak_chr19.bed", package = "GenomicPlot"))
-#' 
+#'
 #' names(centerfiles) <- c("iCLIPPeak", "SummitPeak")
 #' queryfiles <- c(
 #'     system.file("extdata", "chip_treat_chr19.bam", package = "GenomicPlot"))
-#' 
+#'
 #' names(queryfiles) <- c("chip_bam")
 #' inputfiles <- c(
 #'     system.file("extdata", "chip_input_chr19.bam", package = "GenomicPlot"))
 #' names(inputfiles) <- c("chip_input")
-#' 
+#'
 #' chipimportParams <- setImportParams(
 #'     offset = 0, fix_width = 150, fix_point = "start", norm = TRUE,
 #'     useScore = FALSE, outRle = TRUE, useSizeFactor = FALSE, genome = "hg19"
 #' )
-#' 
+#'
 #' plot_locus(
 #'   queryFiles = queryfiles,
 #'   centerFiles = centerfiles,
@@ -100,7 +100,7 @@
 #'   heatmap = TRUE,
 #'   nc = 2
 #' )
-#' 
+#'
 #'
 #' @export plot_locus
 
@@ -132,9 +132,9 @@ plot_locus <- function(queryFiles,
     stopifnot(is.numeric(c(ext, hl, binSize, nc, hw, rmOutlier)))
     stopifnot(transform %in% c("log", "log2", "log10", NA))
     stopifnot(all(file.exists(queryFiles)))
-    if (is.null(names(queryFiles)) || any(names(queryFiles) == "")) 
+    if (is.null(names(queryFiles)) || any(names(queryFiles) == ""))
         stop("Each file must have a name attribute!")
-    
+
     functionName <- as.character(match.call()[[1]])
     params <- plot_named_list(as.list(environment()))
     force(params)
@@ -148,18 +148,18 @@ plot_locus <- function(queryFiles,
 
     if (is.null(inputFiles)) {
         inputLabels <- NULL
-        queryInputs <- handle_input(inputFiles = queryFiles, importParams, 
+        queryInputs <- handle_input(inputFiles = queryFiles, importParams,
                                     verbose = verbose, nc = nc)
     } else {
         inputLabels <- names(inputFiles)
         queryLabels <- names(queryFiles)
         if (length(queryFiles) == length(inputFiles)) {
             queryInputs <- handle_input(
-                inputFiles = c(queryFiles, inputFiles), importParams, 
+                inputFiles = c(queryFiles, inputFiles), importParams,
                 verbose = verbose, nc = nc)
         } else if (length(inputFiles) == 1) {
             queryInputs <- handle_input(
-                inputFiles = c(queryFiles, inputFiles), importParams, 
+                inputFiles = c(queryFiles, inputFiles), importParams,
                 verbose = verbose, nc = nc)
             queryInputs <- queryInputs[c(queryLabels, rep(inputLabels,
                                                           length(queryLabels)))]
@@ -167,7 +167,7 @@ plot_locus <- function(queryFiles,
             inputLabels <- paste0(names(inputFiles), seq_along(queryFiles))
             names(queryInputs) <- c(queryLabels, inputLabels)
         } else {
-            stop("the number of inputFiles must be 1 or equal to the number of 
+            stop("the number of inputFiles must be 1 or equal to the number of
                  queryFiles!")
         }
     }
@@ -180,19 +180,19 @@ plot_locus <- function(queryFiles,
     three <- paste0(three, "Kb")
     if (ext[2] == 0) three <- "0Kb"
     featureNames <- c(five, Xlab, three)
-    
+
     ## to avoid binSize inconsistency, as the final binSize depends on bin_num
-    ext[2] <- ext[2] - (ext[2] - ext[1]) %% binSize 
+    ext[2] <- ext[2] - (ext[2] - ext[1]) %% binSize
     bin_num <- round((ext[2] - ext[1]) / binSize)
     colLabel <- seq(ext[1], (ext[2] - binSize), binSize)
     names(colLabel) <- rep(
-        featureNames, c(sum(colLabel < 0), sum(colLabel == 0), 
+        featureNames, c(sum(colLabel < 0), sum(colLabel == 0),
                         sum(colLabel > 0)))
 
     scoreMatrix_list <- list()
 
     bedparam <- importParams
-    bedparam$CLIP_reads <- FALSE
+    bedparam$offset <- 0
     bedparam$fix_width <- 0
     bedparam$useScore <- FALSE
     bedparam$outRle <- FALSE
@@ -204,7 +204,7 @@ plot_locus <- function(queryFiles,
         if (featureName %in% c("utr3", "utr5", "cds", "intron", "exon",
                                "transcript", "gene")) {
             featureGR <- get_genomic_feature_coordinates(
-                txdb, featureName, longest = TRUE, 
+                txdb, featureName, longest = TRUE,
                 protein_coding = TRUE)[["GRanges"]]
             feature <- list("query" = featureGR)
             centerInputs[[featureName]] <- feature
@@ -231,18 +231,18 @@ plot_locus <- function(queryFiles,
 
         if (refPoint %in% c("center", "start", "end")) {
             windowRegions <- resize(centerGr, width = 1, fix = refPoint)
-            windowRegions <- promoters(windowRegions, upstream = -ext[1], 
+            windowRegions <- promoters(windowRegions, upstream = -ext[1],
                                        downstream = ext[2])
-            windowRegions <- check_constraints(windowRegions, 
+            windowRegions <- check_constraints(windowRegions,
                                                importParams$genome)
         } else {
-            stop("invalid reference point! 
+            stop("invalid reference point!
                  Must be one of c('center', 'start', 'end')")
         }
         windowRs <- as(split(windowRegions, f = factor(names(windowRegions))),
                        "GRangesList")
         centerList[[centerLabel]] <- windowRs
-        if (verbose) message("Number of window regions ", 
+        if (verbose) message("Number of window regions ",
                              length(windowRs), "\n")
     }
 
@@ -268,7 +268,7 @@ plot_locus <- function(queryFiles,
                 stranded, nc = nc)
             if (is.null(inputFiles)) {
                 fullMatrix <- process_scoreMatrix(
-                    fullMatrix, scale, rmOutlier, transform = transform, 
+                    fullMatrix, scale, rmOutlier, transform = transform,
                     verbose = verbose)
             } else {
                 fullMatrix <- process_scoreMatrix(
@@ -290,10 +290,10 @@ plot_locus <- function(queryFiles,
     plot_df <- list() # per position, averaged over gene
     stat_df <- list() # per gene, averaged over position
     heatmap_list <- list()
-    Ylab <- ifelse(!is.na(transform) && is.null(inputFiles), 
+    Ylab <- ifelse(!is.na(transform) && is.null(inputFiles),
                    paste0(transform, " (", Ylab, ")"), Ylab)
 
-    if (verbose) message("Collecting coverage data...\n") 
+    if (verbose) message("Collecting coverage data...\n")
     ## plot multiple bed files on each center
 
     for (queryLabel in queryLabels) {
@@ -319,14 +319,14 @@ plot_locus <- function(queryFiles,
                 dataname <- paste(Ylab, queryLabel, centerLabel, sep = ":")
                 heatmap_list[[dataname]] <- draw_matrix_heatmap(fullMatrix,
                     dataName = dataname, labels_col = collabel, ranking = "Sum",
-                    levels_col = featureNames, ranges = heatRange, 
+                    levels_col = featureNames, ranges = heatRange,
                     verbose = verbose
                 )
             }
 
             if (smooth) {
                 sub_df$Intensity <- as.vector(
-                    smooth.spline(sub_df$Intensity, 
+                    smooth.spline(sub_df$Intensity,
                                   df = as.integer(bin_num / 5))$y)
                 sub_df$se <- as.vector(
                     smooth.spline(sub_df$se, df = as.integer(bin_num / 5))$y)
@@ -357,7 +357,7 @@ plot_locus <- function(queryFiles,
     mstat_dt <- NULL
     if (hl[2] > hl[1]) {
         mstat_dt <- bind_rows(stat_df) %>%
-            mutate(Group = as.factor(paste0(Query, ":", Reference)), 
+            mutate(Group = as.factor(paste0(Query, ":", Reference)),
                    .keep = "all")
     }
 
@@ -377,13 +377,13 @@ plot_locus <- function(queryFiles,
                     aplot_df <- mplot_dt %>%
                         filter(Query %in% beds & Reference %in% centers)
                     ## unify order of factors to get consistent color mapping
-                    aplot_df <- aplot_df %>% 
+                    aplot_df <- aplot_df %>%
                         mutate(Query = factor(
                             Query, levels = sort(unique(Query)))) %>%
                         mutate(Reference = factor(
                             Reference, levels = sort(unique(Reference))))
 
-                    p <- draw_locus_profile(plot_df = aplot_df, cn = "Group", 
+                    p <- draw_locus_profile(plot_df = aplot_df, cn = "Group",
                                             sn = "Group", Xlab = Xlab,
                                             Ylab = Ylab, shade = shade, hl = hl)
 
@@ -395,31 +395,31 @@ plot_locus <- function(queryFiles,
                                 mutate(Query = factor(
                                     Query, levels = sort(unique(Query)))) %>%
                                 mutate(Reference = factor(
-                                    Reference, 
+                                    Reference,
                                     levels = sort(unique(Reference))))
 
                             if (j > 1) {
                                 p <- draw_locus_profile(
-                                    plot_df = aplot_df, cn = "Reference", 
-                                    sn = "Query", Xlab = Xlab, Ylab = Ylab, 
+                                    plot_df = aplot_df, cn = "Reference",
+                                    sn = "Query", Xlab = Xlab, Ylab = Ylab,
                                     shade = shade, hl = hl)
                                 comp <- combn(
                                     seq_along(centers), 2, simplify = FALSE)
 
                                 combo <- draw_combo_plot(
-                                    stat_df = astat_df, xc = "Reference", 
-                                    yc = "Intensity", comp = comp, 
+                                    stat_df = astat_df, xc = "Reference",
+                                    yc = "Intensity", comp = comp,
                                     stats = statsMethod, Ylab = Ylab)
                             } else {
                                 p <- draw_locus_profile(
-                                    plot_df = aplot_df, cn = "Query", 
+                                    plot_df = aplot_df, cn = "Query",
                                     sn = "Reference", Xlab = Xlab, Ylab = Ylab,
                                     shade = shade, hl = hl)
                                 comp <- combn(
                                     seq_along(beds), 2, simplify = FALSE)
 
                                 combo <- draw_combo_plot(
-                                    stat_df = astat_df, xc = "Query", 
+                                    stat_df = astat_df, xc = "Query",
                                     yc = "Intensity", comp = comp,
                                     stats = statsMethod, Ylab = Ylab)
                             }
@@ -430,7 +430,7 @@ plot_locus <- function(queryFiles,
                         }
                     } else if (i == 1 && j == 1) {
                         plot_list[[paste(Ylab, beds, centers, sep = ":")]] <- p
-                    } else if (i == length(queryLabels) && 
+                    } else if (i == length(queryLabels) &&
                                j == length(centerLabels)) {
                         print(p)
                     }
@@ -438,9 +438,9 @@ plot_locus <- function(queryFiles,
             }
         }
     }
-    
+
     draw_stacked_plot(plot_list, heatmap_list[names(plot_list)])
-    
+
     if (!is.null(inputFiles)) {
         plot_list <- list()
         for (i in seq_along(inputLabels)) {
@@ -454,32 +454,32 @@ plot_locus <- function(queryFiles,
 
                         aplot_df <- mplot_dt %>%
                             filter(Query %in% beds & Reference %in% centers)
-                        aplot_df <- aplot_df %>% 
+                        aplot_df <- aplot_df %>%
                             mutate(Query = factor(
                                 Query, levels = sort(unique(Query)))) %>%
                             mutate(Reference = factor(
                                 Reference, levels = sort(unique(Reference))))
 
                         p <- draw_locus_profile(
-                            plot_df = aplot_df, cn = "Group", sn = "Group", 
+                            plot_df = aplot_df, cn = "Group", sn = "Group",
                             Xlab = Xlab, Ylab = Ylab, shade = shade, hl = hl)
 
                         if ((i == 1 && j > 1) || (i > 1 && j == 1)) {
                             if (hl[2] > hl[1]) {
                                 astat_df <- mstat_dt %>%
-                                    filter(Query %in% beds & 
+                                    filter(Query %in% beds &
                                                Reference %in% centers)
                                 astat_df <- astat_df %>%
                                     mutate(Query = factor(
-                                        Query, 
+                                        Query,
                                         levels = sort(unique(Query)))) %>%
                                     mutate(Reference = factor(
-                                        Reference, 
+                                        Reference,
                                         levels = sort(unique(Reference))))
 
                                 if (j > 1) {
                                     p <- draw_locus_profile(
-                                        plot_df = aplot_df, cn = "Reference", 
+                                        plot_df = aplot_df, cn = "Reference",
                                         sn = "Query", Xlab = Xlab, Ylab = Ylab,
                                         shade = shade, hl = hl)
                                     comp <- combn(
@@ -487,12 +487,12 @@ plot_locus <- function(queryFiles,
 
                                     combo <- draw_combo_plot(
                                         stat_df = astat_df, xc = "Reference",
-                                        yc = "Intensity", comp = comp, 
+                                        yc = "Intensity", comp = comp,
                                         stats = statsMethod, Ylab = Ylab)
                                 } else {
                                     p <- draw_locus_profile(
-                                        plot_df = aplot_df, cn = "Query", 
-                                        sn = "Reference", Xlab = Xlab, 
+                                        plot_df = aplot_df, cn = "Query",
+                                        sn = "Reference", Xlab = Xlab,
                                         Ylab = Ylab, shade = shade, hl = hl)
                                     comp <- combn(
                                         seq_along(beds), 2, simplify = FALSE)
@@ -508,9 +508,9 @@ plot_locus <- function(queryFiles,
                                 print(p)
                             }
                         } else if (i == 1 && j == 1) {
-                            plot_list[[paste(Ylab, beds, centers, 
+                            plot_list[[paste(Ylab, beds, centers,
                                              sep = ":")]] <- p
-                        } else if (i == length(inputLabels) && 
+                        } else if (i == length(inputLabels) &&
                                    j == length(centerLabels)) {
                             print(p)
                         }
@@ -524,7 +524,7 @@ plot_locus <- function(queryFiles,
 
 
         if (verbose) message("Computing Ratio over input...\n")
-        Ylab <- ifelse(is.na(transform), "Ratio-over-Input", 
+        Ylab <- ifelse(is.na(transform), "Ratio-over-Input",
                        paste0(transform, " (Ratio-over-Input)"))
 
         inputMatrix_list <- scoreMatrix_list[inputLabels]
@@ -534,11 +534,11 @@ plot_locus <- function(queryFiles,
         for (centerLabel in centerLabels) {
             for (i in seq_along(ratiolabels)) {
                 fullMatrix <- ratio_over_input(
-                    ratioMatrix_list[[ratiolabels[i]]][[centerLabel]], 
+                    ratioMatrix_list[[ratiolabels[i]]][[centerLabel]],
                     inputMatrix_list[[inputLabels[i]]][[centerLabel]], verbose)
 
                 fullMatrix <- process_scoreMatrix(
-                    fullMatrix, scale, rmOutlier, transform = transform, 
+                    fullMatrix, scale, rmOutlier, transform = transform,
                     verbose = verbose)
                 colnames(fullMatrix) <- as.character(colLabel)
 
@@ -550,7 +550,7 @@ plot_locus <- function(queryFiles,
         stat_df <- list()
         heatmap_list <- list()
         ## plot multiple bed files on each center
-        if (verbose) message("Collecting ratio data...\n") 
+        if (verbose) message("Collecting ratio data...\n")
 
         for (ratiolabel in ratiolabels) {
             if (verbose) message("Ratio label: ", ratiolabel, "\n")
@@ -567,17 +567,17 @@ plot_locus <- function(queryFiles,
                 refbed <- as.factor(rep(centerLabel, length(colm)))
 
 
-                sub_df <- data.frame(colm, colsd, colse, collabel, querybed, 
+                sub_df <- data.frame(colm, colsd, colse, collabel, querybed,
                                      refbed)
-                colnames(sub_df) <- c("Intensity", "sd", "se", "Position", 
+                colnames(sub_df) <- c("Intensity", "sd", "se", "Position",
                                       "Query", "Reference")
 
                 if (smooth) {
                     sub_df$Intensity <- as.vector(
-                        smooth.spline(sub_df$Intensity, 
+                        smooth.spline(sub_df$Intensity,
                                       df = as.integer(bin_num / 5))$y)
                     sub_df$se <- as.vector(
-                        smooth.spline(sub_df$se, 
+                        smooth.spline(sub_df$se,
                                       df = as.integer(bin_num / 5))$y)
                 }
 
@@ -587,7 +587,7 @@ plot_locus <- function(queryFiles,
                     dataname <- paste(Ylab, ratiolabel, centerLabel, sep = ":")
                     heatmap_list[[dataname]] <- draw_matrix_heatmap(
                         fullMatrix, dataName = dataname, labels_col = collabel,
-                        levels_col = featureNames, ranges = heatRange, 
+                        levels_col = featureNames, ranges = heatRange,
                         verbose = verbose)
                 }
 
@@ -602,7 +602,7 @@ plot_locus <- function(queryFiles,
                     Query <- as.factor(rep(ratiolabel, length(Intensity)))
                     Reference <- as.factor(rep(centerLabel, length(Intensity)))
                     subdf <- data.frame(Intensity, Query, Reference)
-                    stat_df[[paste(ratiolabel, centerLabel, 
+                    stat_df[[paste(ratiolabel, centerLabel,
                                    sep = ":")]] <- subdf
                 }
             }
@@ -610,14 +610,14 @@ plot_locus <- function(queryFiles,
 
         mplot_dt <- bind_rows(plot_df) %>%
             mutate(Group = paste0(Query, ":", Reference), .keep = "all") %>%
-            mutate(lower = Intensity - se, upper = Intensity + se, 
+            mutate(lower = Intensity - se, upper = Intensity + se,
                    .keep = "all")
 
         mstat_dt <- NULL
 
         if (hl[2] > hl[1]) {
             mstat_dt <- bind_rows(stat_df) %>%
-                mutate(Group = as.factor(paste0(Query, ":", Reference)), 
+                mutate(Group = as.factor(paste0(Query, ":", Reference)),
                        .keep = "all")
         }
 
@@ -634,33 +634,33 @@ plot_locus <- function(queryFiles,
 
                         aplot_df <- mplot_dt %>%
                             filter(Query %in% beds & Reference %in% centers)
-                        aplot_df <- aplot_df %>% 
+                        aplot_df <- aplot_df %>%
                             mutate(Query = factor(
                                 Query, levels = sort(unique(Query)))) %>%
                             mutate(Reference = factor(
                                 Reference, levels = sort(unique(Reference))))
 
                         p <- draw_locus_profile(
-                            plot_df = aplot_df, cn = "Group", sn = "Group", 
+                            plot_df = aplot_df, cn = "Group", sn = "Group",
                             Xlab = Xlab, Ylab = Ylab, shade = shade, hl = hl)
 
                         if ((i == 1 && j > 1) || (i > 1 && j == 1)) {
                             if (hl[2] > hl[1]) {
                                 astat_df <- mstat_dt %>%
-                                    filter(Query %in% beds & 
+                                    filter(Query %in% beds &
                                                Reference %in% centers)
                                 astat_df <- astat_df %>%
                                     mutate(Query = factor(
-                                        Query, 
+                                        Query,
                                         levels = sort(unique(Query)))) %>%
                                     mutate(Reference = factor(
-                                        Reference, 
+                                        Reference,
                                         levels = sort(unique(Reference))))
 
                                 if (j > 1) {
                                     p <- draw_locus_profile(
                                         plot_df = aplot_df, cn = "Reference",
-                                        sn = "Query", Xlab = Xlab, Ylab = Ylab, 
+                                        sn = "Query", Xlab = Xlab, Ylab = Ylab,
                                         shade = shade, hl = hl)
                                     comp <- combn(
                                         seq_along(centers), 2, simplify = FALSE)
@@ -672,13 +672,13 @@ plot_locus <- function(queryFiles,
                                 } else {
                                     p <- draw_locus_profile(
                                         plot_df = aplot_df, cn = "Query",
-                                        sn = "Reference", Xlab = Xlab, 
+                                        sn = "Reference", Xlab = Xlab,
                                         Ylab = Ylab, shade = shade, hl = hl)
                                     comp <- combn(
                                         seq_along(beds), 2, simplify = FALSE)
 
                                     combo <- draw_combo_plot(
-                                        stat_df = astat_df, xc = "Query", 
+                                        stat_df = astat_df, xc = "Query",
                                         yc = "Intensity", comp = comp,
                                         stats = statsMethod, Ylab = Ylab)
                                 }
@@ -688,9 +688,9 @@ plot_locus <- function(queryFiles,
                                 print(p)
                             }
                         } else if (i == 1 && j == 1) {
-                            plot_list[[paste(Ylab, beds, centers, 
+                            plot_list[[paste(Ylab, beds, centers,
                                              sep = ":")]] <- p
-                        } else if (i == length(ratiolabels) && 
+                        } else if (i == length(ratiolabels) &&
                                    j == length(centerLabels)) {
                             print(p)
                         }

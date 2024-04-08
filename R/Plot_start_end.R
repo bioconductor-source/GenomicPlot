@@ -156,7 +156,7 @@ plot_start_end <- function(queryFiles,
     queryLabels <- names(queryInputs)
 
     bedparam <- importParams
-    bedparam$CLIP_reads <- FALSE
+    bedparam$offset <- 0
     bedparam$fix_width <- 0
     bedparam$fix_point <- "start"
     bedparam$useScore <- FALSE

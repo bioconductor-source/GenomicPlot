@@ -65,7 +65,8 @@
 #'
 #' chipimportParams <- setImportParams(
 #'   offset = 0, fix_width = 150, fix_point = "start", norm = TRUE,
-#'   useScore = FALSE, outRle = TRUE, useSizeFactor = FALSE, genome = "hg19")
+#'   useScore = FALSE, outRle = TRUE, useSizeFactor = FALSE, genome = "hg19",
+#'   chr = c("chr19"))
 #'
 #' plot_region(
 #'   queryFiles = queryfiles,
@@ -80,7 +81,7 @@
 #'   fiveP = -500,
 #'   threeP = 500,
 #'   smooth = TRUE,
-#'   transform = NA,
+#'   transform = "log2",
 #'   stranded = TRUE,
 #'   outPrefix = NULL,
 #'   Ylab = "Coverage/base/peak",
@@ -158,7 +159,7 @@ plot_region <- function(queryFiles,
     queryLabels <- names(queryInputs)
 
     bedparam <- importParams
-    bedparam$CLIP_reads <- FALSE
+    bedparam$offset <- 0
     bedparam$fix_width <- 0
     bedparam$useScore <- FALSE
     bedparam$outRle <- FALSE
@@ -366,7 +367,7 @@ plot_region <- function(queryFiles,
 
                 if (heatmap) {
                     dataname <- paste(Ylab, queryLabel, centerLabel, sep = ":")
-                    heatmap_list[dataname] <- draw_matrix_heatmap(
+                    heatmap_list[[dataname]] <- draw_matrix_heatmap(
                        featureMatrix, dataName = dataname,
                        labels_col = collabel,
                        levels_col = names(scaled_bins[scaled_bins > 0]),
@@ -573,7 +574,7 @@ plot_region <- function(queryFiles,
 
                 if (heatmap) {
                     dataname <- paste(Ylab, ratiolabel, centerLabel, sep = ":")
-                    heatmap_list[dataname] <- draw_matrix_heatmap(
+                    heatmap_list[[dataname]] <- draw_matrix_heatmap(
                        featureMatrix, dataName = dataname,
                        labels_col = collabel,
                        levels_col = names(scaled_bins[scaled_bins > 0]),
