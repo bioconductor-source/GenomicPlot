@@ -413,12 +413,14 @@ handle_bed <- function(inputFile,
     ## ignore extra columns, which cause problem in import.bed()
     standard_col <- c("chr", "start", "end", "name", "score", "strand")
     colnames(beddata) <- standard_col[seq_len(min(6, ncol(beddata)))]
+
+    if(!is.null(importParams$chr)){
+        beddata <- beddata %>%
+            dplyr::filter(chr %in% importParams$chr)
+    }
+
     queryRegions <- makeGRangesFromDataFrame(beddata, keep.extra.columns = TRUE,
                                              starts.in.df.are.0based = TRUE)
-    if(!is.null(importParams$chr)){
-        queryRegions <- queryRegions %>%
-            plyranges::filter(seqnames %in% importParams$chr)
-    }
 
     if("name" %in% colnames(beddata)) {
         if (sum(duplicated(beddata$name)) > 0) {
@@ -535,16 +537,17 @@ handle_bedGraph <- function(inputFile,
     ## ignore extra columns, which cause problem in import.bed()
     standard_col <- c("chr", "start", "end", "score")
     colnames(beddata) <- standard_col
+
+    if(!is.null(importParams$chr)){
+        beddata <- beddata %>%
+            dplyr::filter(chr %in% importParams$chr)
+    }
+
     queryRegions <- makeGRangesFromDataFrame(beddata, keep.extra.columns = TRUE,
                                              starts.in.df.are.0based = TRUE,
                                              ignore.strand = TRUE)
 
     names(queryRegions) <- paste("region", seq_along(beddata[,1]), sep = "_")
-
-    if(!is.null(importParams$chr)){
-        queryRegions <- queryRegions %>%
-            plyranges::filter(seqnames %in% importParams$chr)
-    }
 
     if (importParams$fix_width > 0) {
         queryRegions <- resize(queryRegions,
