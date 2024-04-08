@@ -9,7 +9,7 @@ inspect_matrix(fullmatrix, verbose = FALSE)
 \arguments{
 \item{fullmatrix}{a numeric matrix}
 
-\item{verbose}{logical, indicating whether to print out the stats in the 
+\item{verbose}{logical, indicating whether to print out the stats in the
 console}
 }
 \value{
