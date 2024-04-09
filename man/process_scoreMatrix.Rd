@@ -13,40 +13,40 @@ process_scoreMatrix(
 )
 }
 \arguments{
-\item{fullmatrix}{a numeric matrix, with bins in columns and genomic windows 
+\item{fullmatrix}{a numeric matrix, with bins in columns and genomic windows
 in rows}
 
-\item{scale}{logical, indicating whether the score matrix should be scaled 
+\item{scale}{logical, indicating whether the score matrix should be scaled
 to the range 0:1, so that samples with different baseline can be compared}
 
-\item{rmOutlier}{a numeric value to multiple the 'mad' when detecting 
-outliers, can be adjusted based on data.  Default 0, indicating not to 
+\item{rmOutlier}{a numeric value to multiple the 'mad' when detecting
+outliers, can be adjusted based on data.  Default 0, indicating not to
 remove outliers.}
 
-\item{transform}{a string in c("log", "log2", "log10"), default = NA 
+\item{transform}{a string in c("log", "log2", "log10"), default = NA
 indicating no transformation of data matrix}
 
-\item{verbose}{logical, indicating whether to output additional information 
+\item{verbose}{logical, indicating whether to output additional information
 (data used for plotting or statistical test results)}
 }
 \value{
 a numeric matrix with the same dimension as the fullmatrix
 }
 \description{
-This is a helper function for manipulate the score matrix 
-produced by ScoreMatrix or ScoreMatrinBin functions defined in the 
-`genomation` package. To facilitate downstream analysis, imputation of 
-missing values is performed implicitly when log transformation is required, 
+This is a helper function for manipulate the score matrix
+produced by ScoreMatrix or ScoreMatrinBin functions defined in the
+`genomation` package. To facilitate downstream analysis, imputation of
+missing values is performed implicitly when log transformation is required,
 otherwise missing values are replaced with 0.
 }
 \details{
-If inputFiles for the plotting function is null, all operations 
- (scale, rmOutlier and transform) can be applied to the score matrix, in 
- the order of rmOutlier -> transform -> scale. When inputFiles are provided, 
- only rmOutlier can be applied to the score matrix, as transform and scale 
- will affect ratio calculation, especially when log2 transformation of the 
- ratio is intended. However, all these operations can be applied to the 
- resulting ratio matrix. In order to avoid introducing distortion into the 
+If inputFiles for the plotting function is null, all operations
+ (scale, rmOutlier and transform) can be applied to the score matrix, in
+ the order of rmOutlier -> transform -> scale. When inputFiles are provided,
+ only rmOutlier can be applied to the score matrix, as transform and scale
+ will affect ratio calculation, especially when log2 transformation of the
+ ratio is intended. However, all these operations can be applied to the
+ resulting ratio matrix. In order to avoid introducing distortion into the
  processed data, use caution when applying these operations.
 }
 \examples{

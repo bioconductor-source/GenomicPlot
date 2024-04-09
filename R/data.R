@@ -1,4 +1,3 @@
-
 #'
 #' @title Toy data for examples and testing of the `GenomicPlot` package
 #' @description The data files in the extdata directory contain data for next
@@ -46,6 +45,7 @@
 #' @keywords datasets
 #'
 NULL
+
 
 #'
 #' @title Toy data for examples and testing of the `GenomicPlot` package

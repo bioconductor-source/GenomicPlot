@@ -27,6 +27,9 @@
 #' default 4 for bedGraph.
 #' @param skip integer, indicating how many rows will be skipped before reading
 #' in data, default 0.
+#' @param chr a vector of string, denoting chromosomes to be included, like
+#' c("chr1", "chr2", "chrX"), default NULL indicating all chromosomes will be
+#' included.
 #' @return a list of nine elements
 #'
 #' @author Shuye Pu
@@ -38,17 +41,18 @@
 #' @export setImportParams
 #'
 setImportParams <- function(
-    offset = 0,
-    fix_width = 0,
-    fix_point = "start",
-    norm = FALSE,
-    useScore = FALSE,
-    outRle = TRUE,
-    useSizeFactor = FALSE,
-    saveRds = FALSE,
-    genome = "hg19",
-    val = 4,
-    skip = 0) {
+        offset = 0,
+        fix_width = 0,
+        fix_point = "start",
+        norm = FALSE,
+        useScore = FALSE,
+        outRle = TRUE,
+        useSizeFactor = FALSE,
+        saveRds = FALSE,
+        genome = "hg19",
+        val = 4,
+        skip = 0,
+        chr = NULL) {
     stopifnot(is.numeric(c(offset, fix_width)))
     stopifnot(fix_point %in% c("start", "center", "end"))
     stopifnot(is.logical(c(norm, useScore, outRle, useSizeFactor, saveRds)))
@@ -59,7 +63,7 @@ setImportParams <- function(
         offset = offset, fix_width = fix_width, fix_point = fix_point,
         norm = norm, useScore = useScore, outRle = outRle,
         useSizeFactor = useSizeFactor, saveRds = saveRds,
-        genome = genome, val = val, skip = skip
+        genome = genome, val = val, skip = skip, chr = chr
     ))
 }
 
@@ -409,8 +413,15 @@ handle_bed <- function(inputFile,
     ## ignore extra columns, which cause problem in import.bed()
     standard_col <- c("chr", "start", "end", "name", "score", "strand")
     colnames(beddata) <- standard_col[seq_len(min(6, ncol(beddata)))]
+
+    if(!is.null(importParams$chr)){
+        beddata <- beddata %>%
+            dplyr::filter(chr %in% importParams$chr)
+    }
+
     queryRegions <- makeGRangesFromDataFrame(beddata, keep.extra.columns = TRUE,
                                              starts.in.df.are.0based = TRUE)
+
     if("name" %in% colnames(beddata)) {
         if (sum(duplicated(beddata$name)) > 0) {
             ## if the names are not unique, force them to be unique
@@ -429,15 +440,15 @@ handle_bed <- function(inputFile,
 
     if (importParams$fix_width > 0) {
         queryRegions <- resize(queryRegions,
-            width = 1,
-            fix = rep(importParams$fix_point, length(queryRegions)),
-            ignore.strand = FALSE
+                               width = 1,
+                               fix = rep(importParams$fix_point, length(queryRegions)),
+                               ignore.strand = FALSE
         )
         queryRegions <- flank(queryRegions,
-                               width = as.integer(importParams$fix_width/2),
-                               start = TRUE,
-                               both = TRUE,
-                               ignore.strand = FALSE
+                              width = as.integer(importParams$fix_width/2),
+                              start = TRUE,
+                              both = TRUE,
+                              ignore.strand = FALSE
         )
     }
     weight_col <- "score"
@@ -509,8 +520,8 @@ handle_bed <- function(inputFile,
 #' @export handle_bedGraph
 
 handle_bedGraph <- function(inputFile,
-                       importParams = NULL,
-                       verbose = FALSE) {
+                            importParams = NULL,
+                            verbose = FALSE) {
     stopifnot(file.exists(inputFile))
     if (is.null(names(inputFile)) || names(inputFile) == "")
         stop("Each file must have a name attribute!")
@@ -526,12 +537,17 @@ handle_bedGraph <- function(inputFile,
     ## ignore extra columns, which cause problem in import.bed()
     standard_col <- c("chr", "start", "end", "score")
     colnames(beddata) <- standard_col
+
+    if(!is.null(importParams$chr)){
+        beddata <- beddata %>%
+            dplyr::filter(chr %in% importParams$chr)
+    }
+
     queryRegions <- makeGRangesFromDataFrame(beddata, keep.extra.columns = TRUE,
                                              starts.in.df.are.0based = TRUE,
                                              ignore.strand = TRUE)
 
     names(queryRegions) <- paste("region", seq_along(beddata[,1]), sep = "_")
-
 
     if (importParams$fix_width > 0) {
         queryRegions <- resize(queryRegions,
@@ -652,6 +668,12 @@ handle_bam <- function(inputFile, importParams = NULL, verbose = FALSE) {
         queryRegions <- unlist(grglist(ga))
         score(queryRegions) <- 1
     }
+
+    if(!is.null(importParams$chr)){
+        queryRegions <- queryRegions %>%
+            plyranges::filter(seqnames %in% importParams$chr)
+    }
+
     weight_col <- "score"
 
     ## make input comply with GenomeInfoDb, use cached chromInfo to avoid
@@ -736,6 +758,11 @@ handle_bw <- function(inputFile, importParams, verbose = FALSE) {
 
         queryRegions <- iGR
         strand(queryRegions) <- "*"
+    }
+
+    if(!is.null(importParams$chr)){
+        queryRegions <- queryRegions %>%
+            plyranges::filter(seqnames %in% importParams$chr)
     }
 
     ## make input comply with GenomeInfoDb

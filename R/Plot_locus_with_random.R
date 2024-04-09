@@ -216,7 +216,7 @@ plot_locus_with_random <- function(queryFiles,
     smlr <- list() # scoreMatrix_list_random
 
     bedparam <- importParams
-    bedparam$CLIP_reads <- FALSE
+    bedparam$offset <- 0
     bedparam$fix_width <- 0
     bedparam$useScore <- FALSE
     bedparam$outRle <- FALSE
@@ -367,7 +367,11 @@ plot_locus_with_random <- function(queryFiles,
                 for (alabel in c(centerLabel, "Random")) {
                     fullMatrix <- fullMatrix_list[[alabel]]
                     colm <- apply(fullMatrix, 2, mean)
-                    colsd <- apply(fullMatrix, 2, sd)
+                    if(nrow(fullMatrix) == 1){
+                        colsd <- rep(0, ncol(fullMatrix))
+                    }else{
+                        colsd <- apply(fullMatrix, 2, sd)
+                    }
                     colse <- colsd / sqrt(apply(fullMatrix, 2, length))
                     collabel <- colLabel
                     querybed <- as.factor(rep(queryLabel, length(colm)))
@@ -395,7 +399,7 @@ plot_locus_with_random <- function(queryFiles,
                         xmin <- which(colLabel == hl[1])
                         xmax <- which(colLabel == hl[2])
                         if (length(xmax) == 0) xmax <- length(colLabel)
-                        submatrix <- (fullMatrix[, xmin:xmax])
+                        submatrix <- fullMatrix[, xmin:xmax, drop = FALSE]
                         submatrix[is.na(submatrix)] <- 0
                         Intensity <- as.numeric(rowMeans(submatrix))
 
@@ -505,7 +509,11 @@ plot_locus_with_random <- function(queryFiles,
                         fullMatrix <- fullMatrix_list[[alabel]]
 
                         colm <- apply(fullMatrix, 2, mean)
-                        colsd <- apply(fullMatrix, 2, sd)
+                        if(nrow(fullMatrix) == 1){
+                            colsd <- rep(0, ncol(fullMatrix))
+                        }else{
+                            colsd <- apply(fullMatrix, 2, sd)
+                        }
                         colse <- colsd / sqrt(apply(fullMatrix, 2, length))
                         collabel <- colLabel
                         querybed <- as.factor(rep(queryLabel, length(colm)))
@@ -533,7 +541,7 @@ plot_locus_with_random <- function(queryFiles,
                             xmin <- which(colLabel == hl[1])
                             xmax <- which(colLabel == hl[2])
                             if (length(xmax) == 0) xmax <- length(colLabel)
-                            submatrix <- (fullMatrix[, xmin:xmax])
+                            submatrix <- fullMatrix[, xmin:xmax, drop = FALSE]
                             submatrix[is.na(submatrix)] <- 0
                             Intensity <- as.numeric(rowMeans(submatrix))
                             Query <- as.factor(rep(queryLabel,

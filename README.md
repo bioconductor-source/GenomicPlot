@@ -20,6 +20,14 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("GenomicPlot")
 ```
 
+or the latest build from [GitHub](https://github.com/shuye2009/GenomicPlot) with:
+
+``` r
+if (!require("remotes", quietly = TRUE))
+   install.packages("remotes")
+remotes::install_github("shuye2009/GenomicPlot", ref = "RELEASE_3_18")
+```
+
 You can install the development version of GenomicPlot from Bioconductor:
 
 ``` r
@@ -27,7 +35,7 @@ if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("GenomicPlot", version = "devel")
 ```
-or from [GitHub](https://github.com/shuye2009/GenomicPlot) with:
+or the latest build from [GitHub](https://github.com/shuye2009/GenomicPlot) with:
 
 ``` r
 if (!require("remotes", quietly = TRUE))

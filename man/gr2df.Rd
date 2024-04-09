@@ -13,8 +13,8 @@ gr2df(gr)
 a dataframe
 }
 \description{
-Convert a GRanges object with meta data columns to a dataframe, 
-with the first 6 columns corresponding those of BED6 format, and the meta 
+Convert a GRanges object with meta data columns to a dataframe,
+with the first 6 columns corresponding those of BED6 format, and the meta
 data as additional columns
 }
 \examples{

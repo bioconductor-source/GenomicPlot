@@ -117,7 +117,8 @@ names(inputfiles) <- c("chip_input")
 
 chipimportParams <- setImportParams(
   offset = 0, fix_width = 150, fix_point = "start", norm = TRUE,
-  useScore = FALSE, outRle = TRUE, useSizeFactor = FALSE, genome = "hg19")
+  useScore = FALSE, outRle = TRUE, useSizeFactor = FALSE, genome = "hg19",
+  chr = c("chr19"))
 
 plot_region(
   queryFiles = queryfiles,
@@ -132,7 +133,7 @@ plot_region(
   fiveP = -500,
   threeP = 500,
   smooth = TRUE,
-  transform = NA,
+  transform = "log2",
   stranded = TRUE,
   outPrefix = NULL,
   Ylab = "Coverage/base/peak",

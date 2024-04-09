@@ -15,15 +15,15 @@ aov_TukeyHSD(df, xc = "Group", yc = "Intensity", op = NULL, verbose = FALSE)
 
 \item{op}{output prefix for statistical analysis results}
 
-\item{verbose}{logical, to indicate whether a file should be produced to 
+\item{verbose}{logical, to indicate whether a file should be produced to
 save the test results}
 }
 \value{
-a list of two elements, the first is the p-value of ANOVA test and 
+a list of two elements, the first is the p-value of ANOVA test and
 the second is a matrix of the output of TukeyHSD tests
 }
 \description{
-This is a helper function for performing one-way ANOVA analysis 
+This is a helper function for performing one-way ANOVA analysis
 and post hoc Tukey's Honest Significant Differences tests
 }
 \note{

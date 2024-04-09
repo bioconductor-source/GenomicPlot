@@ -15,7 +15,8 @@ setImportParams(
   saveRds = FALSE,
   genome = "hg19",
   val = 4,
-  skip = 0
+  skip = 0,
+  chr = NULL
 )
 }
 \arguments{
@@ -53,6 +54,10 @@ default 4 for bedGraph.}
 
 \item{skip}{integer, indicating how many rows will be skipped before reading
 in data, default 0.}
+
+\item{chr}{a vector of string, denoting chromosomes to be included, like
+c("chr1", "chr2", "chrX"), default NULL indicating all chromosomes will be
+included.}
 }
 \value{
 a list of nine elements
