@@ -1,3 +1,6 @@
+# CHANGES IN VERSION 1.1.9
+   - Fixed a bug in plot_region
+   
 # CHANGES IN VERSION 1.1.8
 ## NEW FEATURES
    - Add handling of .gz files for bed and bedGraph format.

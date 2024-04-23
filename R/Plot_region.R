@@ -537,11 +537,11 @@ plot_region <- function(queryFiles,
                 im <- imrl[[inputLabels[i]]][[centerLabel]]
                 commonrow <- intersect(rownames(rm), rownames(im))
 
-                if (is.na(transform)) {
-                    fullMatrix <- rm[commonrow, ] / im[commonrow, ]
-                } else {
-                    fullMatrix <- rm[commonrow, ] - im[commonrow, ]
-                }
+                fullMatrix <- ratio_over_input(rm[commonrow, ], im[commonrow, ],
+                                               verbose)
+                fullMatrix <- process_scoreMatrix(fullMatrix, scale, rmOutlier,
+                                                  transform = transform,
+                                                  verbose = verbose)
 
                 rmrl[[ratiolabels[i]]][[centerLabel]] <- fullMatrix
             }
