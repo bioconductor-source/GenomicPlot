@@ -1,4 +1,4 @@
-# CHANGES IN VERSION 1.1.10
+# CHANGES IN VERSION 1.3.1
    - Updated dependency on R >= 4.4.0 and genomation >= 1.36.0
    
 # CHANGES IN VERSION 1.1.10
