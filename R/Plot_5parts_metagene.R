@@ -215,6 +215,8 @@ plot_5parts_metagene <- function(queryFiles,
             } else {
                 featureMatrix <- as.matrix(bind_cols(
                     scoreMatrix_list[[queryLabel]]))
+                rownames(featureMatrix) <- rownames(
+                    scoreMatrix_list[[queryLabel]][[1]])
                 if (is.null(inputFiles)) {
                     featureMatrix <- process_scoreMatrix(featureMatrix, scale,
                                                          rmOutlier,
