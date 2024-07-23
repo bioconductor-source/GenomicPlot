@@ -494,23 +494,10 @@ ratio_over_input <- function(IP, Input, verbose = FALSE) {
     ## a pseudo number. As a pseudo number is essentially a noise, if it is too
     ## large, it will mask signals.
 
-    reg <- 0
-    numerator <- max(IP)
-    if (numerator > 10) {
-        reg <- 1
-    } else if (numerator > 1) {
-        reg <- 0.1
-    } else if (numerator > 0.1) {
-        reg <- 0.01
-    } else if (numerator > 0.01) {
-        reg <- 0.001
-    } else if (numerator > 0.001) {
-        reg <- 0.0001
-    }
+    reg <- ifelse(median(IP) > 1, 1, 0.1)
 
     if (verbose) {
-        message("Maximum if IP matrix: ", max(IP))
-        message("Minimum of Input matrix: ", min(Input))
+        message("Median of IP matrix: ", median(IP))
         message("Pseudo number added: ", reg)
     }
 

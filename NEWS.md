@@ -1,3 +1,6 @@
+# CHANGES IN VERSION 1.3.4
+   - Modify pseudo count for ratio matrix
+   
 # CHANGES IN VERSION 1.3.3
    - Add gene id to rownames to heatmap
 
